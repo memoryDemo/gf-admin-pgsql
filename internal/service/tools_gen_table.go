@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"gf-ruoyi/internal/model"
+	"gf-admin-pgsql/internal/model"
 	"strings"
 
 	"github.com/gogf/gf/v2/database/gdb"

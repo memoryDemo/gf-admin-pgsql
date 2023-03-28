@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	"gf-ruoyi/internal/model"
-	"gf-ruoyi/internal/service/internal/dao"
+	"gf-admin-pgsql/internal/model"
+	"gf-admin-pgsql/internal/service/internal/dao"
 
 	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/frame/g"

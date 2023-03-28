@@ -1,4 +1,4 @@
-module gf-ruoyi
+module gf-admin-pgsql
 
 go 1.17
 

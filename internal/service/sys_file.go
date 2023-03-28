@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"gf-ruoyi/internal/consts"
-	"gf-ruoyi/internal/model"
-	"gf-ruoyi/internal/model/entity"
-	"gf-ruoyi/internal/service/internal/dao"
+	"gf-admin-pgsql/internal/consts"
+	"gf-admin-pgsql/internal/model"
+	"gf-admin-pgsql/internal/model/entity"
+	"gf-admin-pgsql/internal/service/internal/dao"
 	"time"
 
 	"github.com/gogf/gf/v2/errors/gerror"

@@ -1,6 +1,6 @@
 package model
 
-import "gf-ruoyi/internal/model/entity"
+import "gf-admin-pgsql/internal/model/entity"
 
 // 获取在线用户列表请求
 type SysUserOnlineListInput struct {

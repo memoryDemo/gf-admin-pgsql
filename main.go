@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gf-ruoyi/internal/cmd"
-	_ "gf-ruoyi/internal/packed"
+	"gf-admin-pgsql/internal/cmd"
+	_ "gf-admin-pgsql/internal/packed"
 	_ "github.com/gogf/gf/contrib/drivers/pgsql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcfg"

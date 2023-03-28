@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"gf-ruoyi/internal/model"
-	"gf-ruoyi/internal/model/entity"
-	"gf-ruoyi/internal/service/internal/dao"
-	"gf-ruoyi/utility/utils"
+	"gf-admin-pgsql/internal/model"
+	"gf-admin-pgsql/internal/model/entity"
+	"gf-admin-pgsql/internal/service/internal/dao"
+	"gf-admin-pgsql/utility/utils"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"

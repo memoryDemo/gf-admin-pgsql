@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"gf-ruoyi/internal/model"
+	"gf-admin-pgsql/internal/model"
 
 	"github.com/gogf/gf/v2/frame/g"
 )

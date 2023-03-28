@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"gf-ruoyi/internal/consts"
-	"gf-ruoyi/internal/model"
+	"gf-admin-pgsql/internal/consts"
+	"gf-admin-pgsql/internal/model"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"

@@ -1,7 +1,7 @@
 package model
 
 import (
-	"gf-ruoyi/internal/model/entity"
+	"gf-admin-pgsql/internal/model/entity"
 )
 
 // 获取角色列表输入

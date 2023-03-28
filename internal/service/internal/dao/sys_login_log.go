@@ -4,7 +4,7 @@
 
 package dao
 
-import "gf-ruoyi/internal/service/internal/dao/internal"
+import "gf-admin-pgsql/internal/service/internal/dao/internal"
 
 // internalSysLoginLogDao is internal type for wrapping internal DAO implements.
 type internalSysLoginLogDao = *internal.SysLoginLogDao

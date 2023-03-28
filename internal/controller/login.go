@@ -2,10 +2,10 @@ package controller
 
 import (
 	"context"
-	v1 "gf-ruoyi/api/v1"
-	"gf-ruoyi/internal/model"
-	"gf-ruoyi/internal/service"
-	"gf-ruoyi/utility/utils"
+	v1 "gf-admin-pgsql/api/v1"
+	"gf-admin-pgsql/internal/model"
+	"gf-admin-pgsql/internal/service"
+	"gf-admin-pgsql/utility/utils"
 	"strings"
 
 	"github.com/gogf/gf/v2/frame/g"

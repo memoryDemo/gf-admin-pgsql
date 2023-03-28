@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"context"
-	"gf-ruoyi/internal/controller"
-	"gf-ruoyi/internal/service"
+	"gf-admin-pgsql/internal/controller"
+	"gf-admin-pgsql/internal/service"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"

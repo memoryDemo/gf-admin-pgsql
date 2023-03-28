@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"gf-ruoyi/internal/model"
-	"gf-ruoyi/utility/response"
+	"gf-admin-pgsql/internal/model"
+	"gf-admin-pgsql/utility/response"
 	"strings"
 
 	"github.com/gogf/gf/v2/errors/gcode"
