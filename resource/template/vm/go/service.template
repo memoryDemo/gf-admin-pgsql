@@ -1,0 +1,104 @@
+// ==========================================================================
+// 自动生成控制器相关代码，只生成一次，按需修改,再次生成不会覆盖11.
+// 生成日期：{{date "Y-m-d H:i:s"}}
+// ==========================================================================
+////
+{{$structName := .table.StructName | CaseCamel}}
+
+package service
+
+import (
+    "context"
+    "{{ProjectName}}/internal/model"
+    "{{ProjectName}}/internal/service/internal/dao"
+
+    "github.com/gogf/gf/v2/frame/g"
+)
+
+type s{{$structName}} struct{}
+
+// {{.table.Description}}管理服务
+func {{$structName}}() *s{{$structName}} {
+    return &s{{$structName}}{}
+}
+
+// 获取{{.table.Description}}列表
+func (s *s{{$structName}}) GetList(ctx context.Context, in model.{{$structName}}ListInput) (out model.{{$structName}}ListOutput, err error) {
+    m := dao.{{$structName}}.Ctx(ctx).OmitEmpty()
+    {{range $index, $field := .table.Fields}}
+    {{if eq $field.GoField "CreatedAt"}}
+    if in.BeginTime != "" && in.EndTime != "" {
+        m = m.Where("created_at>? and created_at<?", in.BeginTime, in.EndTime)
+    }
+    {{end}}
+    {{if eq $field.IsQuery "1"}}
+    {{if eq $field.QueryType "EQ"}}
+    m = m.Where("{{$field.ColumnName}}", in.{{$field.GoField}})
+    {{else if eq $field.QueryType "NE"}}
+    if in.{{$field.GoField}} != "" {
+        m = m.Where("{{$field.ColumnName}}", in.{{$field.GoField}})
+    }
+    {{else if (eq $field.QueryType "GT")}}
+    if in.{{$field.GoField}} != "" {
+        m = m.WhereGT("{{$field.ColumnName}}", in.{{$field.GoField}})
+    }
+    {{else if (eq $field.QueryType "GTE")}}
+    if in.{{$field.GoField}} != "" {
+        m = m.WhereGTE("{{$field.ColumnName}}", in.{{$field.GoField}})
+    }
+    {{else if (eq $field.QueryType "LT")}}
+    if in.{{$field.GoField}} != "" {
+        m = m.WhereLT("{{$field.ColumnName}}", in.{{$field.GoField}})
+    }
+    {{else if (eq $field.QueryType "LTE")}}
+    if in.{{$field.GoField}} != "" {
+        m = m.WhereLTE("{{$field.ColumnName}}", in.{{$field.GoField}})
+    }
+    {{else if (eq $field.QueryType "LIKE")}}
+    if in.{{$field.GoField}} != "" {
+        m = m.WhereLike("{{$field.ColumnName}}", "%"+in.{{$field.GoField}}+"%")
+    }
+    {{end}}
+    {{end}}
+    
+    {{end}}
+    if err = m.Page(in.PageNum, in.PageSize).Scan(&out.Rows); err != nil {
+        return
+    }
+    out.Total, err = m.Count()
+    return
+}
+
+// 获取{{.table.Description}}详细信息
+func (s *s{{$structName}}) GetOne(ctx context.Context, in model.{{$structName}}OneInput) (out *model.{{$structName}}OneOutput, err error) {
+    err = dao.{{$structName}}.Ctx(ctx).OmitEmpty().Where(in).Scan(&out)
+    return
+}
+
+// 新增{{.table.Description}}
+func (s *s{{$structName}}) Create(ctx context.Context, in model.{{$structName}}CreateInput) (err error) {
+    _, err = dao.{{$structName}}.Ctx(ctx).OmitEmpty().Insert(in)
+    return
+}
+
+// 更新{{.table.Description}}
+func (s *s{{$structName}}) Update(ctx context.Context, in model.{{$structName}}UpdateInput) (err error) {
+    _, err = dao.{{$structName}}.Ctx(ctx).OmitEmpty().Data(in).Where(g.Map{
+        {{range $index, $field := .table.Fields}}
+        {{if eq $field.IsPk "1"}}
+        "{{$field.ColumnName}}=?": in.{{$field.GoField}},
+        {{end}}
+        {{end}}
+	}).Update()
+    return
+}
+
+// 删除{{.table.Description}}
+func (s *s{{$structName}}) Delete(ctx context.Context, in model.{{$structName}}DeleteInput) (err error) {
+    {{range $index, $field := .table.Fields}}
+    {{if eq $field.IsPk "1"}}
+    _, err = dao.{{$structName}}.Ctx(ctx).Delete("{{$field.ColumnName}} IN(?)", in.{{$field.GoField}}List)
+    {{end}}
+    {{end}}
+    return
+}
