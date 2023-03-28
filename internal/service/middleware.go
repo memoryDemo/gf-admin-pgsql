@@ -2,8 +2,8 @@ package service
 
 import (
 	"fmt"
-	"gf-admin-pgsql/internal/model"
-	"gf-admin-pgsql/utility/response"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/utility/response"
 	"strings"
 
 	"github.com/gogf/gf/v2/errors/gcode"

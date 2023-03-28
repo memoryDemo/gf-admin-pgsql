@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
 
 	"github.com/gogf/gf/v2/frame/g"
 )

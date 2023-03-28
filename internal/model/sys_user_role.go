@@ -1,6 +1,6 @@
 package model
 
-import "gf-admin-pgsql/internal/model/entity"
+import "github.com/memoryDemo/gf-admin-pgsql/internal/model/entity"
 
 // // 根据用户id，获取角色id列表和角色名称列表输出
 // type SysUserRoleFieldsOutput struct {

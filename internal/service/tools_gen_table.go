@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
 	"strings"
 
 	"github.com/gogf/gf/v2/database/gdb"

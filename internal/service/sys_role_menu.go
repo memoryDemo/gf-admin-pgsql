@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"gf-admin-pgsql/internal/model"
-	"gf-admin-pgsql/internal/service/internal/dao"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/text/gstr"

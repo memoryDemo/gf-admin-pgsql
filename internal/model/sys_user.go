@@ -1,7 +1,7 @@
 package model
 
 import (
-	"gf-admin-pgsql/internal/model/entity"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model/entity"
 )
 
 // 用户登录输入

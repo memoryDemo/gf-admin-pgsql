@@ -4,7 +4,7 @@
 
 package dao
 
-import "gf-admin-pgsql/internal/service/internal/dao/internal"
+import "github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao/internal"
 
 // internalSysUserDao is internal type for wrapping internal DAO implements.
 type internalSysUserDao = *internal.SysUserDao

@@ -1,13 +1,13 @@
 package main
 
 import (
-	"gf-admin-pgsql/internal/cmd"
-	_ "gf-admin-pgsql/internal/packed"
 	_ "github.com/gogf/gf/contrib/drivers/pgsql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/os/genv"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/cmd"
+	_ "github.com/memoryDemo/gf-admin-pgsql/internal/packed"
 )
 
 func main() {

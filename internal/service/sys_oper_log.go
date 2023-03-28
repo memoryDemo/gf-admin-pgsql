@@ -2,10 +2,10 @@ package service
 
 import (
 	"context"
-	"gf-admin-pgsql/internal/model"
-	"gf-admin-pgsql/internal/model/entity"
-	"gf-admin-pgsql/internal/service/internal/dao"
-	"gf-admin-pgsql/utility/utils"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model/entity"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao"
+	"github.com/memoryDemo/gf-admin-pgsql/utility/utils"
 
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"

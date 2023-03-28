@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"context"
-	"gf-admin-pgsql/internal/controller"
-	"gf-admin-pgsql/internal/service"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/controller"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/service"
 )
 
 var (

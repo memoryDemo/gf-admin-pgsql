@@ -4,7 +4,7 @@
 
 package dao
 
-import "gf-admin-pgsql/internal/service/internal/dao/internal"
+import "github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao/internal"
 
 // internalSysJobLogDao is internal type for wrapping internal DAO implements.
 type internalSysJobLogDao = *internal.SysJobLogDao

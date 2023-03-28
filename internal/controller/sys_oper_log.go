@@ -2,9 +2,9 @@ package controller
 
 import (
 	"context"
-	v1 "gf-admin-pgsql/api/v1"
-	"gf-admin-pgsql/internal/model"
-	"gf-admin-pgsql/internal/service"
+	v1 "github.com/memoryDemo/gf-admin-pgsql/api/v1"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/service"
 
 	"github.com/gogf/gf/v2/util/gconv"
 )
