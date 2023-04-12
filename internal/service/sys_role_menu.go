@@ -34,7 +34,7 @@ func (s sRoleMenu) UpdateMenu(ctx context.Context, in model.SysRoleMenuUpdateRIn
 			"menu_id": v,
 		})
 	}
-	_, err = dao.SysRoleMenu.Ctx(ctx).Data(roleMenuWrite).Save()
+	_, err = dao.SysRoleMenu.Ctx(ctx).Data(roleMenuWrite).Insert()
 	return
 }
 

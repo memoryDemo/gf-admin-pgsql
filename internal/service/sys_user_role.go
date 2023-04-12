@@ -92,7 +92,7 @@ func (s sUserRole) UpdateUser(ctx context.Context, in model.SysUserRoleUpdateUIn
 			"role_id": v,
 		})
 	}
-	_, err = dao.SysUserRole.Ctx(ctx).Data(userRoleWrite).Save()
+	_, err = dao.SysUserRole.Ctx(ctx).Data(userRoleWrite).Insert()
 	return
 }
 
@@ -110,7 +110,7 @@ func (s sUserRole) RoleSelectUser(ctx context.Context, in model.SysRoleSelectUse
 			"user_id": v,
 		})
 	}
-	_, err = dao.SysUserRole.Ctx(ctx).Data(userRoleWrite).Save()
+	_, err = dao.SysUserRole.Ctx(ctx).Data(userRoleWrite).Insert()
 	return
 }
 
