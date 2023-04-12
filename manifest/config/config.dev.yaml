@@ -1,0 +1,40 @@
+server:
+  address: ":8000"
+  openapiPath: "/api.json"
+  swaggerPath: "/api/swagger"
+  errorStack: false
+
+logger:
+  path: "logs/default"
+  level: "all"
+  stdout: true
+
+# 数据库连接配置
+database:
+  logger:
+    path: "logs/sql"
+    level: "all"
+    stdout: true
+    ctxKeys: ["RequestId"]
+
+  default:
+    link: "mysql:root:123456@tcp(127.0.0.1:3306)/gf_ry"
+    debug: true
+
+# 工具相关配置
+gfcli:
+  # dao生成
+  gen:
+    dao:
+      - link: "mysql:root:123456@tcp(127.0.0.1:3306)/gf_ry"
+        tables: "sys_user"
+
+# 文件上传设置
+upload:
+  path: "upload"
+
+# 代码生成
+gen:
+  projectName: "gf-admin" #项目名
+  # templatePath: "template/vm" #代码生成模板路径
+  frontDir: "C:\Tools\webProject\gf-admin" #前端路径
