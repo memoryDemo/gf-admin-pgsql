@@ -50,7 +50,7 @@ type SysRoleCreateRes struct{}
 // 更新角色信息请求
 type SysRoleUpdateReq struct {
 	g.Meta   `path:"/role/update" method:"post" summary:"修改角色" tags:"角色"`
-	RoleId   uint   `v:"required|length:1,5#角色id不能为空！|角色名长度为:{min}到{max}位" dc:"角色id"`   // 角色ID
+	RoleId   uint   `v:"required|length:1,20#角色id不能为空！|角色id长度为:{min}到{max}位" dc:"角色id"` // 角色ID
 	RoleName string `v:"required|length:1,60#角色名称不能为空！|角色名称长度为:{min}到{max}位" dc:"角色名称"` // 角色名称
 	RoleSort int    `dc:"显示顺序" `                                                        // 显示顺序
 	Status   string `d:"0" dc:"角色状态；0:正常,1:禁用"`                                         // 角色状态；0:正常，1:禁用

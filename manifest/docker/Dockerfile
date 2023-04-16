@@ -7,6 +7,9 @@ WORKDIR /app
 # 拷贝项目文件
 COPY . .
 
+# 设置 GOPROXY 环境变量
+ENV GOPROXY https://goproxy.cn
+
 # 安装项目依赖
 RUN go mod download
 

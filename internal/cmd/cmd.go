@@ -47,7 +47,7 @@ var (
 					controller.Login.GetRouters,
 				)
 				// 权限效验
-				group.Middleware(service.Middleware().Auth)
+				//group.Middleware(service.Middleware().Auth)
 				group.Group("/system", func(group *ghttp.RouterGroup) {
 					group.Bind(
 						controller.SysUser,
