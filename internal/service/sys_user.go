@@ -1,10 +1,17 @@
 package service
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"github.com/memoryDemo/gf-admin-pgsql/internal/consts"
 	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
 	"github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao"
+	"io/ioutil"
+	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gogf/gf/v2/database/gdb"
@@ -173,3 +180,100 @@ func (s *sUser) UpdateAvatar(ctx context.Context, in model.SysUserUpdateAvatarIn
 	}).Data(in).Where("user_id", in.UserId).Update()
 	return
 }
+
+// MSALSsoLogin MSAL单点登陆
+func MSALSsoLogin(ctx context.Context, Token string) (res string, err error) {
+	adUserInfo, err := GetMe(Token)
+	if err != nil {
+		g.Log().Error(ctx, "调用azure接口失败：%v", err)
+		return
+	}
+	resp, err := json.Marshal(adUserInfo)
+	res = string(resp)
+	g.Log().Info(ctx, "获取到的azure用户信息为：%v", string(resp))
+	//result := CheckUserName([]string{adUserInfo.UserPrincipalName})
+	//g.Log().Info(ctx, "查到的用户大小：%v", len(result))
+	//userid := 0
+	//if len(result) == 0 {
+	//	request := &model.AddOrCreateUserRequest{
+	//		UserId:        0,
+	//		UserType:      "custom",
+	//		NickName:      adUserInfo.DisplayName,
+	//		UserName:      adUserInfo.UserPrincipalName,
+	//		Status:        0,
+	//		Password:      "Connext@0101",
+	//		PwdNeedChange: 0,
+	//		Phone:         "",
+	//		Email:         adUserInfo.UserPrincipalName,
+	//		Roles:         []int64{2},
+	//		TenantID:      0,
+	//	}
+	//	//仿造token
+	//	var content = new(pcontext.CommonInfo)
+	//	superToken := GetSuperToken()
+	//	content.Token = superToken
+	//	userid = int(usermgmtmodel.CreateOrUpdateUser(content, request, 0, "SsoLogin"))
+	//} else {
+	//	userid = int(result[0].UserId)
+	//}
+	//if userid == 0 {
+	//	plog.Assert(errors.New("account user id ==0 ,error"))
+	//}
+	//
+	//loginRsp, err := usermgmtmodel.Login(&usermgmttype.LoginRequest{
+	//	Passwd:   "Connext@0101",
+	//	UserName: adUserInfo.UserPrincipalName,
+	//}, 0, "", false)
+	//
+	//loginRsp.PwdNeedChange = false
+	//return loginRsp, err
+	return
+}
+
+func GetMe(token string) (resp model.ADUserInfo, err error) {
+	var (
+		client = &http.Client{}
+	)
+
+	req, err := http.NewRequest("GET", consts.MICROSOFTGRAPH_CHINACLOUDAPI_GLOBAL, bytes.NewReader([]byte{}))
+	if err != nil {
+		return model.ADUserInfo{}, err
+	}
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
+	res, err := client.Do(req)
+	if err != nil {
+		return model.ADUserInfo{}, err
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	//fmt.Println(res.StatusCode)
+	//fmt.Println(string(body))
+	if res.StatusCode == 200 {
+		err = json.Unmarshal(body, &resp)
+		if err != nil {
+			return model.ADUserInfo{}, err
+		}
+	} else {
+		err = errors.New("api return code:" + strconv.Itoa(res.StatusCode))
+		return model.ADUserInfo{}, err
+	}
+	if err != nil {
+		return model.ADUserInfo{}, err
+	}
+
+	return
+}
+
+// Check UserName
+//func CheckUserName(userName []string) []*usermgmttype.AuthUsers {
+//	orm, err := pdb.GetDBInstance()
+//	plog.Assert(err)
+//	//orm.SetDebug(true)
+//	result := make([]*usermgmttype.AuthUsers, 0)
+//	model := orm.Table("t_sys_auth_users")
+//	model.Where(
+//		"enabled", 0).Where(
+//		"deleted", 0).Where("user_name", userName).Structs(&result)
+//	plog.Assert(err)
+//	return result
+//}

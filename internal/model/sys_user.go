@@ -107,3 +107,42 @@ type SysUserUpdateAvatarInput struct {
 	UserId uint   // 用户ID
 	Avatar string // 用户头像地址
 }
+
+// LoginRsp
+type LoginRsp struct {
+	UserID        int64    `json:"user_id"`
+	UserName      string   `json:"user_name"`
+	UserNickName  string   `json:"user_nick_name"`
+	Token         string   `json:"token"`
+	UserType      string   `json:"user_type"`
+	FuncList      []string `json:"func_list"`
+	PwdNeedChange bool     `json:"pwd_need_change"`
+}
+
+type ADUserInfo struct {
+	BusinessPhones    []string `json:"businessPhones"`
+	DisplayName       string   `json:"displayName"`
+	GivenName         string   `json:"givenName"`
+	JobTitle          string   `json:"jobTitle"`
+	Mail              string   `json:"mail"`
+	MobilePhone       string   `json:"mobilePhone"`
+	OfficeLocation    string   `json:"officeLocation"`
+	PreferredLanguage string   `json:"preferredLanguage"`
+	Surname           string   `json:"surname"`
+	UserPrincipalName string   `json:"userPrincipalName"`
+	Id                string   `json:"id"`
+}
+
+type AddOrCreateUserRequest struct {
+	UserId        int64   `json:"user_id"`
+	UserType      string  `json:"user_type"`
+	NickName      string  `json:"nick_name"`
+	UserName      string  `json:"user_name"`
+	Status        int     `json:"status"`
+	Password      string  `json:"passwd"`
+	PwdNeedChange int     `json:"pwd_need_change"`
+	Phone         string  `json:"phone"`
+	Email         string  `json:"email"`
+	Roles         []int64 `json:"roles"`
+	TenantID      int64   `json:"tenant_id"`
+}

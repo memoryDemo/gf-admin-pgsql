@@ -109,3 +109,16 @@ func (c *cLogin) GetRouters(ctx context.Context, req *v1.LoginUserRouterReq) (re
 	res, err = service.SysRoleMenu().GetTreeRoute(ctx, roleIds)
 	return
 }
+
+// MSALLoginSso Login interface
+func (c *cLogin) MSALLoginSso(ctx context.Context, req *v1.MSALLoginDoReq) (res *v1.MSALLoginDoRes, err error) {
+
+	g.Log().Info(ctx, "开始进行调用MSALSsoLogin")
+	resp, err := service.MSALSsoLogin(ctx, req.Token)
+	res = &v1.MSALLoginDoRes{
+		Token: resp,
+	}
+	g.Log().Info(ctx, "调用MSALSsoLogin结束")
+
+	return
+}

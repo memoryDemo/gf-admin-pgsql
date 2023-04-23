@@ -38,6 +38,7 @@ var (
 				group.Bind(
 					controller.Login.Login,
 					controller.Login.Logout,
+					controller.Login.MSALLoginSso,
 				)
 				// token验证，并把用户信息和角色字段列表保存到上下文中
 				group.Middleware(service.Middleware().TokenAuth)

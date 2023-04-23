@@ -14,6 +14,17 @@ type LoginDoRes struct {
 	Token string `json:"token" dc:"用户token"`
 }
 
+// MSALLoginDoReq 登录请求
+type MSALLoginDoReq struct {
+	g.Meta `path:"/msal-login" method:"post" summary:"执行msal登录请求" tags:"登录"`
+	Token  string `json:"token" v:"required#用户认证信息不能为空" dc:"Token"`
+}
+
+// MSALLoginDoRes 登录响应
+type MSALLoginDoRes struct {
+	Token string `json:"token" dc:"用户token"`
+}
+
 // 注销请求
 type LogoutReq struct {
 	g.Meta `path:"/logout" method:"post" summary:"执行用户注销接口" tags:"登录"`
