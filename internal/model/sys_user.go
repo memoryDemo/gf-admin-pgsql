@@ -146,3 +146,9 @@ type AddOrCreateUserRequest struct {
 	Roles         []int64 `json:"roles"`
 	TenantID      int64   `json:"tenant_id"`
 }
+
+type AccessTokenInfo struct {
+	Username string `json:"user_name"`
+	Email    string `json:"email"`
+	Cdsid    string `json:"cdsid"`
+}

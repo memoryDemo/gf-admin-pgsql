@@ -9,6 +9,8 @@ require (
 )
 
 require (
+	github.com/AzureAD/microsoft-authentication-library-for-go v1.0.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/lib/pq v1.10.4 // indirect
 )

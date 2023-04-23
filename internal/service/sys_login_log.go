@@ -60,6 +60,6 @@ func (s *sLoginLog) Create(ctx context.Context, in model.SysLoginLogCreateInput)
 		in.Status = "0"
 		in.Msg = "登录成功"
 	}
-	_, err = dao.SysLoginLog.Ctx(ctx).Save(in)
+	_, err = dao.SysLoginLog.Ctx(ctx).Insert(in)
 	return
 }

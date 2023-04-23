@@ -6,12 +6,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/memoryDemo/gf-admin-pgsql/internal/consts"
 	"github.com/memoryDemo/gf-admin-pgsql/internal/model"
 	"github.com/memoryDemo/gf-admin-pgsql/internal/service/internal/dao"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gogf/gf/v2/database/gdb"
@@ -76,12 +78,12 @@ func (s *sUser) GetOne(ctx context.Context, in model.SysUserOneInput) (out *mode
 
 // 新增用户
 func (s *sUser) Create(ctx context.Context, in model.SysUserCreateInput) (err error) {
-	userCount, err := dao.SysUser.Ctx(ctx).Where("user_name=? OR nick_name=?", in.UserName, in.NickName).Count()
+	userCount, err := dao.SysUser.Ctx(ctx).Where("user_name=?", in.UserName).Count()
 	if err != nil {
 		return err
 	}
 	if userCount > 0 {
-		return errors.New("账户或昵称已存在！")
+		return errors.New("账户已存在！")
 	}
 	lastInsertId, err := dao.SysUser.Ctx(ctx).InsertAndGetId(in)
 	if err != nil {
@@ -182,52 +184,73 @@ func (s *sUser) UpdateAvatar(ctx context.Context, in model.SysUserUpdateAvatarIn
 }
 
 // MSALSsoLogin MSAL单点登陆
-func MSALSsoLogin(ctx context.Context, Token string) (res string, err error) {
-	adUserInfo, err := GetMe(Token)
+func (s *sUser) MSALSsoLogin(ctx context.Context, Token string) (out *model.SysUserLoginOutput, err error) {
+
+	var (
+		emailStr      string
+		cdsid         string
+		givenNameStr  string
+		familyNameStr string
+	)
+
+	parser := &jwt.Parser{}
+	token, _, err := parser.ParseUnverified(Token, jwt.MapClaims{})
 	if err != nil {
-		g.Log().Error(ctx, "调用azure接口失败：%v", err)
 		return
 	}
-	resp, err := json.Marshal(adUserInfo)
-	res = string(resp)
-	g.Log().Info(ctx, "获取到的azure用户信息为：%v", string(resp))
-	//result := CheckUserName([]string{adUserInfo.UserPrincipalName})
-	//g.Log().Info(ctx, "查到的用户大小：%v", len(result))
-	//userid := 0
-	//if len(result) == 0 {
-	//	request := &model.AddOrCreateUserRequest{
-	//		UserId:        0,
-	//		UserType:      "custom",
-	//		NickName:      adUserInfo.DisplayName,
-	//		UserName:      adUserInfo.UserPrincipalName,
-	//		Status:        0,
-	//		Password:      "Connext@0101",
-	//		PwdNeedChange: 0,
-	//		Phone:         "",
-	//		Email:         adUserInfo.UserPrincipalName,
-	//		Roles:         []int64{2},
-	//		TenantID:      0,
-	//	}
-	//	//仿造token
-	//	var content = new(pcontext.CommonInfo)
-	//	superToken := GetSuperToken()
-	//	content.Token = superToken
-	//	userid = int(usermgmtmodel.CreateOrUpdateUser(content, request, 0, "SsoLogin"))
-	//} else {
-	//	userid = int(result[0].UserId)
-	//}
-	//if userid == 0 {
-	//	plog.Assert(errors.New("account user id ==0 ,error"))
-	//}
-	//
-	//loginRsp, err := usermgmtmodel.Login(&usermgmttype.LoginRequest{
-	//	Passwd:   "Connext@0101",
-	//	UserName: adUserInfo.UserPrincipalName,
-	//}, 0, "", false)
-	//
-	//loginRsp.PwdNeedChange = false
-	//return loginRsp, err
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		err = gerror.New("invalid token claims！")
+		return
+	}
+	email := claims["email"]
+	upn := claims["upn"]
+	if nil != email {
+		emailStr = claims["email"].(string)
+		cdsid = strings.Split(emailStr, "@")[0]
+	} else if nil != upn {
+		emailStr = claims["upn"].(string)
+		cdsid = strings.Split(emailStr, "@")[0]
+	}
+
+	givenName := claims["given_name"]
+	if nil != givenName {
+		givenNameStr = claims["given_name"].(string)
+	}
+
+	familyName := claims["family_name"]
+	if nil != familyName {
+		familyNameStr = claims["family_name"].(string)
+	}
+
+	if err = dao.SysUser.Ctx(ctx).Where("user_name=? AND status=0", cdsid).Where(
+		"nick_name=? or user_name=?", familyNameStr+givenNameStr, cdsid,
+	).Scan(&out); err != nil {
+		return
+	}
+	if out == nil {
+		//新增用户
+		var user = model.SysUserCreateInput{
+			UserName: cdsid,
+			NickName: familyNameStr + givenNameStr,
+			Password: "123456",
+			Mobile:   "15200000000",
+			Avatar:   "",
+			Status:   "0",
+			DeptId:   0,
+			Remark:   "CDSID自动创建用户",
+			RoleIds:  []uint{7},
+		}
+
+		err = s.Create(ctx, user)
+		err = gconv.Scan(user, &out)
+
+		return
+	}
+
 	return
+
 }
 
 func GetMe(token string) (resp model.ADUserInfo, err error) {

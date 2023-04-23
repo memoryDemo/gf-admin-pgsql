@@ -114,11 +114,48 @@ func (c *cLogin) GetRouters(ctx context.Context, req *v1.LoginUserRouterReq) (re
 func (c *cLogin) MSALLoginSso(ctx context.Context, req *v1.MSALLoginDoReq) (res *v1.MSALLoginDoRes, err error) {
 
 	g.Log().Info(ctx, "开始进行调用MSALSsoLogin")
-	resp, err := service.MSALSsoLogin(ctx, req.Token)
-	res = &v1.MSALLoginDoRes{
-		Token: resp,
-	}
-	g.Log().Info(ctx, "调用MSALSsoLogin结束")
+	res = &v1.MSALLoginDoRes{}
+	// service用户名密码验证,并返回token
+	out, err := service.SysUser().MSALSsoLogin(ctx, req.Token)
 
+	r := g.RequestFromCtx(ctx)
+	userAgent := r.Header.Get("User-Agent")
+	ua := user_agent.New(userAgent)
+	ipaddr := r.GetClientIp()
+	loginLocation := utils.GetCityByIp(ctx, r.GetClientIp())
+	browser, _ := ua.Browser()
+	os := ua.OS()
+	// 保存登录日志
+	err = service.SysLoginLog().Create(ctx, model.SysLoginLogCreateInput{
+		UserName:      out.UserName,
+		Ipaddr:        ipaddr,
+		LoginLocation: loginLocation,
+		Browser:       browser,
+		Os:            os,
+		Err:           err,
+	})
+	if err != nil {
+		return nil, err
+	}
+	if err != nil {
+		return
+	}
+	// 保存用户在线状态到数据库
+	token := guid.S([]byte(out.UserName))
+	err = service.SysUserOnline().Create(ctx, model.SysUserOnlineCreateInput{
+		Token:         token,
+		UserId:        int64(out.UserId),
+		UserName:      out.UserName,
+		Os:            os,
+		Ipaddr:        ipaddr,
+		LoginLocation: loginLocation,
+		Browser:       browser,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	res.Token = token
+	g.Log().Info(ctx, "调用MSALSsoLogin结束")
 	return
 }
