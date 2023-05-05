@@ -77,20 +77,20 @@ func (s *sUser) GetOne(ctx context.Context, in model.SysUserOneInput) (out *mode
 }
 
 // 新增用户
-func (s *sUser) Create(ctx context.Context, in model.SysUserCreateInput) (err error) {
+func (s *sUser) Create(ctx context.Context, in model.SysUserCreateInput) (lastInsertId int64, err error) {
 	userCount, err := dao.SysUser.Ctx(ctx).Where("user_name=?", in.UserName).Count()
 	if err != nil {
-		return err
+		return
 	}
 	if userCount > 0 {
-		return errors.New("账户已存在！")
+		return 0, errors.New("账户已存在！")
 	}
-	lastInsertId, err := dao.SysUser.Ctx(ctx).InsertAndGetId(in)
+	lastInsertId, err = dao.SysUser.Ctx(ctx).InsertAndGetId(in)
 	if err != nil {
-		return err
+		return
 	}
 	// 添加用户和角色关联信息
-	SysUserRole().UpdateUser(ctx, model.SysUserRoleUpdateUInput{UserId: uint(lastInsertId), Roleids: in.RoleIds})
+	_ = SysUserRole().UpdateUser(ctx, model.SysUserRoleUpdateUInput{UserId: uint(lastInsertId), Roleids: in.RoleIds})
 	return
 }
 
@@ -243,14 +243,12 @@ func (s *sUser) MSALSsoLogin(ctx context.Context, Token string) (out *model.SysU
 			RoleIds:  []uint{7},
 		}
 
-		err = s.Create(ctx, user)
-		err = gconv.Scan(user, &out)
-
+		id, _ := s.Create(ctx, user)
+		_ = gconv.Scan(user, &out)
+		out.UserId = uint(id)
 		return
 	}
-
 	return
-
 }
 
 func GetMe(token string) (resp model.ADUserInfo, err error) {

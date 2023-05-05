@@ -1,16 +1,15 @@
 module github.com/memoryDemo/gf-admin-pgsql
 
-go 1.17
+go 1.18
 
 require (
 	github.com/gogf/gf/contrib/drivers/pgsql/v2 v2.3.3
 	github.com/gogf/gf/v2 v2.3.3
+	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/mssola/user_agent v0.5.3
 )
 
 require (
-	github.com/AzureAD/microsoft-authentication-library-for-go v1.0.0 // indirect
-	github.com/golang-jwt/jwt/v5 v5.0.0 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
 	github.com/lib/pq v1.10.4 // indirect
 )

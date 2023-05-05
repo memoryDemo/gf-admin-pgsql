@@ -53,7 +53,7 @@ func (c *cUser) GetOne(ctx context.Context, req *v1.SysUserOneReq) (res *v1.SysU
 func (c *cUser) Create(ctx context.Context, req *v1.SysUserCreateReq) (res *v1.SysUserCreateRes, err error) {
 	in := &model.SysUserCreateInput{}
 	gconv.Scan(req, &in)
-	err = service.SysUser().Create(ctx, *in)
+	_, err = service.SysUser().Create(ctx, *in)
 	return
 }
 

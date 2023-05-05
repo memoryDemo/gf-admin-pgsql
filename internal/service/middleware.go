@@ -44,6 +44,7 @@ func (s *sMiddleware) Ctx(r *ghttp.Request) {
 func (s *sMiddleware) TokenAuth(r *ghttp.Request) {
 	// 获取token，如果token有时效，可以做刷新令牌
 	authHeader := r.Request.Header.Get("Authorization")
+
 	if authHeader != "" {
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
@@ -54,6 +55,66 @@ func (s *sMiddleware) TokenAuth(r *ghttp.Request) {
 		token := parts[1]
 		// 设置token到上下文信息中
 		// Context().SetData(r.Context(), g.Map{"token": token})
+		// 验证token是否有效
+		onlineInfo, _ := SysUserOnline().GetToken(r.Context(), token)
+		if onlineInfo == nil {
+			response.JsonExit(r, 1, "您的帐户异地登陆或令牌失效!")
+		}
+		// 设置用户信息到上下文
+		ctx := r.Context()
+		g.Log().Info(ctx, "token值为："+authHeader)
+		var userInfo model.ContextUser
+		// 用户信息
+		userEntity, err := SysUser().GetOne(ctx, model.SysUserOneInput{UserId: uint(onlineInfo.UserId)})
+		if err != nil {
+			g.Log().Info(ctx, err.Error())
+		}
+
+		gconv.Struct(userEntity, &userInfo.User)
+		// 用户角色信息
+		roleEntitys, err := SysUserRole().GetRoles(ctx, uint(userEntity.UserId))
+		if err != nil {
+			g.Log().Info(ctx, err.Error())
+		}
+		userInfo.Roles = roleEntitys.Roles
+		userInfo.RoleIds = roleEntitys.RoleIds
+		userInfo.RoleNames = roleEntitys.RoleNames
+		// 用户部门信息
+		deptEntity, _ := SysDept().GetOne(ctx, model.SysDeptOneInput{DeptId: userEntity.DeptId})
+		err = gconv.Struct(deptEntity, &userInfo.Dept)
+		if err != nil {
+			g.Log().Info(ctx, err.Error())
+		}
+		Context().SetUser(r.Context(), &userInfo)
+
+		// response.JsonExit(r, 1, "11", userInfo)
+		// userEntity, _ := SysUser().GetOne(r.Context(), model.SysUserOneInput{UserId: uint(onlineInfo.UserId)})
+		// var ctxUser *entity.SysUser
+		// gconv.Struct(userEntity, &ctxUser)
+		// Context().SetUser(r.Context(), ctxUser)
+		// // 设置角色字段列表到上下文
+		// roleFields, _ := SysUserRole().GetFieldList(r.Context(), userEntity.UserId)
+		// var ctxRoles *model.ContextRoles
+		// gconv.Struct(roleFields, &ctxRoles)
+		// Context().SetRoles(r.Context(), ctxRoles)
+
+		r.Middleware.Next()
+	} else {
+		response.JsonExit(r, 1, "未登录或非法访问!")
+	}
+}
+
+func (s *sMiddleware) MealSetTokenAuth(r *ghttp.Request) {
+	// 获取token，如果token有时效，可以做刷新令牌
+	authHeader := r.Request.Header.Get("Authorization")
+	if authHeader != "" {
+		parts := strings.SplitN(authHeader, " ", 2)
+		if !(len(parts) == 2 && parts[0] == "Bearer") {
+			response.JsonExit(r, 1, "未登录或非法访问!")
+		} else if parts[1] == "" {
+			response.JsonExit(r, 1, "未登录或非法访问!")
+		}
+		token := parts[1]
 		// 验证token是否有效
 		onlineInfo, _ := SysUserOnline().GetToken(r.Context(), token)
 		if onlineInfo == nil {
@@ -74,19 +135,6 @@ func (s *sMiddleware) TokenAuth(r *ghttp.Request) {
 		deptEntity, _ := SysDept().GetOne(ctx, model.SysDeptOneInput{DeptId: userEntity.DeptId})
 		gconv.Struct(deptEntity, &userInfo.Dept)
 		Context().SetUser(r.Context(), &userInfo)
-
-		// response.JsonExit(r, 1, "11", userInfo)
-		// userEntity, _ := SysUser().GetOne(r.Context(), model.SysUserOneInput{UserId: uint(onlineInfo.UserId)})
-		// var ctxUser *entity.SysUser
-		// gconv.Struct(userEntity, &ctxUser)
-		// Context().SetUser(r.Context(), ctxUser)
-		// // 设置角色字段列表到上下文
-		// roleFields, _ := SysUserRole().GetFieldList(r.Context(), userEntity.UserId)
-		// var ctxRoles *model.ContextRoles
-		// gconv.Struct(roleFields, &ctxRoles)
-		// Context().SetRoles(r.Context(), ctxRoles)
-
-		r.Middleware.Next()
 	} else {
 		response.JsonExit(r, 1, "未登录或非法访问!")
 	}
