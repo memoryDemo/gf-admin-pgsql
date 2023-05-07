@@ -17,7 +17,7 @@ type cDept struct{}
 // 获取部门列表
 func (c *cDept) GetList(ctx context.Context, req *v1.SysDeptListReq) (res v1.SysDeptListRes, err error) {
 	in := &model.SysDeptListInput{}
-	gconv.Scan(req, &in)
+	_ = gconv.Scan(req, &in)
 	deptRes, err := service.SysDept().GetList(ctx, *in)
 	res = gconv.Maps(deptRes)
 	return

@@ -23,13 +23,14 @@ type SysDeptOneOutput struct {
 
 // 新增部门输入
 type SysDeptCreateInput struct {
-	ParentId int64  // 父部门id
-	DeptName string // 部门名称
-	OrderNum int    // 显示顺序
-	Leader   string // 负责人
-	Phone    string // 手机号码
-	Email    string // 邮箱
-	Status   string // 部门状态（0正常 1停用）
+	ParentId    int64  // 父部门id
+	DeptName    string // 部门名称
+	Description string //部门描述
+	OrderNum    int    // 显示顺序
+	Leader      string // 负责人
+	Phone       string // 手机号码
+	Email       string // 邮箱
+	Status      string // 部门状态（0正常 1停用）
 }
 
 // 更新部门信息输入

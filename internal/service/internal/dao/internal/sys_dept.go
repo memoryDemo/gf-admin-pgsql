@@ -20,32 +20,34 @@ type SysDeptDao struct {
 
 // SysDeptColumns defines and stores column names for table sys_dept.
 type SysDeptColumns struct {
-	DeptId    string // 部门id
-	ParentId  string // 父部门id
-	DeptName  string // 部门名称
-	OrderNum  string // 显示顺序
-	Leader    string // 负责人
-	Phone     string // 手机号码
-	Email     string // 邮箱
-	Status    string // 部门状态（0正常 1停用）
-	CreatedAt string // 创建时间
-	UpdatedAt string // 更新时间
-	DeletedAt string // 删除时间
+	DeptId      string // 部门id
+	ParentId    string // 父部门id
+	DeptName    string // 部门名称
+	Description string //部门描述
+	OrderNum    string // 显示顺序
+	Leader      string // 负责人
+	Phone       string // 手机号码
+	Email       string // 邮箱
+	Status      string // 部门状态（0正常 1停用）
+	CreatedAt   string // 创建时间
+	UpdatedAt   string // 更新时间
+	DeletedAt   string // 删除时间
 }
 
 // sysDeptColumns holds the columns for table sys_dept.
 var sysDeptColumns = SysDeptColumns{
-	DeptId:    "dept_id",
-	ParentId:  "parent_id",
-	DeptName:  "dept_name",
-	OrderNum:  "order_num",
-	Leader:    "leader",
-	Phone:     "phone",
-	Email:     "email",
-	Status:    "status",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
-	DeletedAt: "deleted_at",
+	DeptId:      "dept_id",
+	ParentId:    "parent_id",
+	DeptName:    "dept_name",
+	Description: "description",
+	OrderNum:    "order_num",
+	Leader:      "leader",
+	Phone:       "phone",
+	Email:       "email",
+	Status:      "status",
+	CreatedAt:   "created_at",
+	UpdatedAt:   "updated_at",
+	DeletedAt:   "deleted_at",
 }
 
 // NewSysDeptDao creates and returns a new DAO object for table data access.

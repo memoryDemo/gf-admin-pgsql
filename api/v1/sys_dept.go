@@ -30,14 +30,17 @@ type SysDeptOneRes struct {
 
 // 新增部门请求
 type SysDeptCreateReq struct {
-	g.Meta   `path:"/dept/create" method:"post" summary:"新增部门" tags:"部门"`
-	ParentId int64  `v:"required|length:1,10#父部门id不能为空！|父部门id长度为:{min}到{max}位" dc:"父部门id"` // 父部门id
-	DeptName string `v:"required|length:1,60#部门名称不能为空！|部门名称长度为:{min}到{max}位" dc:"部门名称"`    // 部门名称
-	OrderNum int    `v:"required|length:1,3#显示顺序不能为空！|显示顺序长度为:{min}到{max}位" dc:"排序标记"`     // 显示顺序
-	Leader   string `dc:"负责人" `                                                            // 负责人
-	Phone    string `v:"phone#手机号码错误！" dc:"联系电话" `                                         // 手机号码
-	Email    string `v:"email#邮箱格式错误！" dc:"邮箱" `                                           // 邮箱
-	Status   string `dc:"部门状态（0正常 1停用）" `                                                  // 部门状态（0正常 1停用）
+	g.Meta `path:"/dept/create" method:"post" summary:"新增部门" tags:"部门"`
+	//ParentId int64  `v:"required|length:1,10#父部门id不能为空！|父部门id长度为:{min}到{max}位" dc:"父部门id"` // 父部门id
+	ParentId    int64  `d:"100" dc:"父部门id"`                                                // 父部门id
+	DeptName    string `v:"required|length:1,60#部门名称不能为空！|部门名称长度为:{min}到{max}位" dc:"部门名称"` // 部门名称
+	Description string `dc:"部门描述"`                                                         // 部门名称
+	//OrderNum    int    `v:"required|length:1,3#显示顺序不能为空！|显示顺序长度为:{min}到{max}位" dc:"排序标记"`  // 显示顺序
+	OrderNum int    `d:"0" dc:"排序标记"`              // 显示顺序
+	Leader   string `dc:"负责人" `                    // 负责人
+	Phone    string `v:"phone#手机号码错误！" dc:"联系电话" ` // 手机号码
+	Email    string `v:"email#邮箱格式错误！" dc:"邮箱" `   // 邮箱
+	Status   string `d:"0" dc:"部门状态（0正常 1停用）" `    // 部门状态（0正常 1停用）
 }
 
 // 新增部门响应
