@@ -57,12 +57,13 @@ type SysUserCreateReq struct {
 	g.Meta   `path:"/user/create" method:"post" summary:"新增用户" tags:"用户"`
 	UserName string `v:"required|length:1,60#用户名不能为空！|用户名长度为:{min}到{max}位" dc:"用户账号"` // 用户账号
 	NickName string `v:"required#用户昵称不能为空！" dc:"用户昵称"`                                // 用户昵称
-	Password string `v:"required|length:6,30#请输入密码！|密码长度为:{min}到{max}位" dc:"登录密码"`    // 登录密码
-	Mobile   string `v:"required|phone#请输入手机号！|手机号格式错误" dc:"手机号码"`                    // 手机号码
-	Avatar   string `dc:"用户头像地址"`                                                     // 用户头像地址
-	Status   string `d:"0" dc:"用户状态；0:正常,1:禁用"`                                       // 用户状态；0:正常,1:禁用
-	DeptId   int64  `d:"100" dc:"部门id"`                                               // 部门id
-	Remark   string `v:"max-length:200#备注最多为200个字符！" dc:"备注"`                         // 备注
+	//Password string `v:"required|length:6,30#请输入密码！|密码长度为:{min}到{max}位" dc:"登录密码"`    // 登录密码
+	Password string `dc:"登录密码"`                                    // 登录密码
+	Mobile   string `v:"required|phone#请输入手机号！|手机号格式错误" dc:"手机号码"` // 手机号码
+	Avatar   string `dc:"用户头像地址"`                                  // 用户头像地址
+	Status   string `d:"0" dc:"用户状态；0:正常,1:禁用"`                    // 用户状态；0:正常,1:禁用
+	DeptId   int64  `d:"100" dc:"部门id"`                            // 部门id
+	Remark   string `v:"max-length:200#备注最多为200个字符！" dc:"备注"`      // 备注
 	RoleIds  []uint // 角色选中id列表
 }
 

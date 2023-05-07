@@ -85,6 +85,9 @@ func (s *sUser) Create(ctx context.Context, in model.SysUserCreateInput) (lastIn
 	if userCount > 0 {
 		return 0, errors.New("账户已存在！")
 	}
+	if len(in.Password) == 0 {
+		in.Password = "123456" //给默认密码
+	}
 	lastInsertId, err = dao.SysUser.Ctx(ctx).InsertAndGetId(in)
 	if err != nil {
 		return
